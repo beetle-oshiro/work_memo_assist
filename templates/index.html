@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Work Memo Assist</title>
+</head>
+
+<body>
+    <h1>Work Memo Assist</h1>
+    <p>仕事で教わった内容のメモを整理して、学習ノート風に整えます。</p>
+
+    <!-- メモ入力フォーム -->
+    <form method="POST" action="/">
+        <label for="memo">メモ内容（箇条書きでOK）：</label><br>
+        <textarea id="memo" name="memo" rows="8" cols="60">{{ memo_text }}</textarea><br><br>
+
+        <button type="submit">AIで整理して保存</button>
+    </form>
+
+    <!-- 整理結果の表示（organized_text があるときだけ） -->
+    {% if organized_text %}
+    <hr>
+    <h2>整理結果</h2>
+    <pre style="white-space: pre-wrap; font-family: inherit;">
+{{ organized_text }}
+        </pre>
+    {% endif %}
+</body>
+
+</html>
