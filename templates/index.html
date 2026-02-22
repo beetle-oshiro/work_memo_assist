@@ -18,6 +18,12 @@
         <button type="submit">AIで整理して保存</button>
     </form>
 
+    <!-- メモ一覧へのリンク ★ 新規追加 -->
+    <p>
+        <a href="{{ url_for('list_memos') }}">保存済みメモの一覧を見る</a>
+    </p>
+
+
     <!-- 整理結果の表示（organized_text があるときだけ） -->
     {% if organized_text %}
     <hr>

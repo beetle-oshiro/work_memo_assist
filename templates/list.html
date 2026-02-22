@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Work Memo Assist - 一覧</title>
+</head>
+
+<body>
+    <h1>保存済みメモ一覧</h1>
+
+    <p>
+        <a href="{{ url_for('index') }}">← メモ入力画面に戻る</a>
+    </p>
+
+    {% if memos %}
+        <table border="1" cellpadding="4">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>作成日時</th>
+                    <th>元メモ</th>
+                    <th>整理結果</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for memo in memos %}
+                    <tr>
+                        <td>{{ memo.id }}</td>
+                        <td>{{ memo.created_at }}</td>
+                        <td>{{ memo.memo_text }}</td>
+                        <td>
+                            <pre style="white-space: pre-wrap; font-family: inherit;">
+{{ memo.organized_text }}
+                            </pre>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>まだ保存されたメモはありません。</p>
+    {% endif %}
+</body>
+
+</html>

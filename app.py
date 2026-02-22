@@ -1,7 +1,9 @@
-from flask import Flask, render_template, request  # ★ 追加：request を使う
-from dotenv import load_dotenv                    # ★ 追加：環境変数を読む
-from openai import OpenAI                         # ★ 追加：ChatGPT API クライアント
-import os                                         # ★ 追加：os.getenv でキーを読む
+from flask import Flask, render_template, request   # ★ 追加：request を使う
+from dotenv import load_dotenv                      # ★ 追加：環境変数を読む
+from openai import OpenAI                           # ★ 追加：ChatGPT API クライアント
+import os                                           # ★ 追加：os.getenv でキーを読む
+from db import insert_memo, get_all_memos           # ★ 変更：一覧取得用の関数も読み込む
+
 
 # .env から環境変数を読み込む（OPENAI_API_KEY など）
 load_dotenv(override=True)
@@ -76,6 +78,10 @@ def index():
                 # 返ってきた整理結果のテキストを取り出す
                 organized_text = (res.choices[0].message.content or "").strip()
 
+                # ★ 新規追加：DBに保存する
+                insert_memo(memo_text, organized_text)
+
+
             except Exception as e:
                 # エラーが起きたときは、その旨を画面に表示する
                 organized_text = f"（メモの整理に失敗しました: {e}）"
@@ -91,6 +97,19 @@ def index():
         memo_text=memo_text,
         organized_text=organized_text,
     )
+
+@app.route("/list")
+def list_memos():
+    """
+    保存済みのメモを一覧表示する画面。
+    memos テーブルから全件取得して、list.html に渡す。
+    """
+    # DB からすべてのメモを取得
+    memos = get_all_memos()
+
+    # list.html テンプレートに渡して表示
+    return render_template("list.html", memos=memos)
+
 
 
 if __name__ == "__main__":
