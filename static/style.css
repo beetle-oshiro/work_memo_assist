@@ -1,0 +1,159 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    color: #333;
+}
+
+.form-container {
+    max-width: 760px;
+    margin: 40px auto;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    margin-top: 0;
+    color: #333;
+}
+
+h2 {
+    color: #333;
+    margin-top: 0;
+}
+
+.page-description {
+    margin-bottom: 20px;
+    line-height: 1.7;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.input-group label {
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px;
+    border: 1px solid #d8d0c8;
+    border-radius: 8px;
+    font-size: 16px;
+    line-height: 1.6;
+    resize: vertical;
+    background-color: #fff;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #f69002;
+    box-shadow: 0 0 0 3px rgba(246, 144, 2, 0.15);
+}
+
+.submit-btn {
+    margin-top: 25px;
+    background-color: #f69002;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.submit-btn:hover {
+    background-color: #df8200;
+}
+
+.link-area {
+    margin-top: 20px;
+}
+
+.sub-link {
+    color: #d97706;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.sub-link:hover {
+    text-decoration: underline;
+}
+
+.result-box {
+    background-color: #fffaf3;
+    border-left: 4px solid #f69002;
+    padding: 20px;
+    margin-top: 30px;
+    border-radius: 8px;
+}
+
+.organized-text {
+    white-space: pre-wrap;
+    font-family: inherit;
+    margin: 0;
+    line-height: 1.8;
+}
+
+/* 保存済メモ一覧画面 */
+.memo-card-list {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.memo-card {
+    background-color: #fff;
+    border: 1px solid #e5e0d8;
+    border-radius: 10px;
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.memo-card-header {
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #eee;
+}
+
+.memo-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    color: #666;
+    font-size: 14px;
+}
+
+.memo-id {
+    font-weight: bold;
+    color: #333;
+}
+
+.memo-section {
+    margin-top: 20px;
+}
+
+.memo-section h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.memo-box {
+    background-color: #f8f8f8;
+    border-left: 4px solid #d1d5db;
+    padding: 18px;
+    border-radius: 8px;
+}
+
+.memo-box .organized-text {
+    margin: 0;
+}

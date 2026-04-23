@@ -1,46 +1,56 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
-
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Work Memo Assist - 一覧</title>
-</head>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
 
-<body>
-    <h1>保存済みメモ一覧</h1>
+  <body>
+    <div class="form-container">
+      <h1>保存済みメモ一覧</h1>
 
-    <p>
-        <a href="{{ url_for('index') }}">← メモ入力画面に戻る</a>
-    </p>
+      <p class="link-area">
+        <a href="{{ url_for('index') }}" class="sub-link"
+          >← メモ入力画面に戻る</a
+        >
+      </p>
 
-    {% if memos %}
-        <table border="1" cellpadding="4">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>作成日時</th>
-                    <th>元メモ</th>
-                    <th>整理結果</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for memo in memos %}
-                    <tr>
-                        <td>{{ memo.id }}</td>
-                        <td>{{ memo.created_at }}</td>
-                        <td>{{ memo.memo_text }}</td>
-                        <td>
-                            <pre style="white-space: pre-wrap; font-family: inherit;">
-{{ memo.organized_text }}
-                            </pre>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
+      {% if memos %}
+      <div class="memo-card-list">
+        {% for memo in memos %}
+        <div class="memo-card">
+          <div class="memo-card-header">
+            <div class="memo-meta">
+              <span class="memo-id">ID：{{ memo.id }}</span>
+              <span class="memo-date">作成日時：{{ memo.created_at }}</span>
+            </div>
+          </div>
+
+          <div class="memo-section">
+            <h2>元メモ</h2>
+            <div class="memo-box">
+              <pre class="organized-text">{{ memo.memo_text }}</pre>
+            </div>
+          </div>
+
+          <div class="memo-section">
+            <h2>整理結果</h2>
+            <div class="result-box">
+              <pre class="organized-text">{{ memo.organized_text }}</pre>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="empty-box">
         <p>まだ保存されたメモはありません。</p>
-    {% endif %}
-</body>
-
+      </div>
+      {% endif %}
+    </div>
+  </body>
 </html>

@@ -1,13 +1,12 @@
 # db.py
 # メモシステム用の「データベース接続」と「INSERT処理」をまとめたファイル
 
-import os              # 環境変数（.env）の値を読むため
-import psycopg2        # PostgreSQL に接続するためのライブラリ
-from dotenv import load_dotenv  # .env を読み込むため
+import os
+import psycopg2
+from dotenv import load_dotenv
 
 
 # .env ファイルの内容を読み込む
-# app.py でも load_dotenv を呼んでいるけど、二重に呼んでも問題はないよ
 load_dotenv()
 
 
@@ -15,6 +14,7 @@ def get_connection():
     """
     PostgreSQL に接続して、接続オブジェクト（conn）を返す関数。
     .env に書かれた DATABASE_URL を使う。
+    Render の PostgreSQL でも接続できるように sslmode=require を補う。
     """
     # .env に書いた DATABASE_URL を取得
     db_url = os.getenv("DATABASE_URL")
@@ -22,6 +22,13 @@ def get_connection():
     # DATABASE_URL が設定されていない場合はエラーにする
     if not db_url:
         raise ValueError("DATABASE_URL が設定されていません。.env を確認してください。")
+
+    # DATABASE_URL に sslmode が無い場合は追加する
+    if "sslmode=" not in db_url:
+        if "?" in db_url:
+            db_url = db_url + "&sslmode=require"
+        else:
+            db_url = db_url + "?sslmode=require"
 
     # psycopg2.connect() に URL を渡して接続する
     conn = psycopg2.connect(db_url)
@@ -40,28 +47,27 @@ def insert_memo(memo_text: str, organized_text: str) -> None:
 
     try:
         # INSERT 文を実行して、memos テーブルにデータを追加する
-        # created_at カラムにはデフォルト値（now()）が自動で入るので指定しない
         cur.execute(
             """
             INSERT INTO memos (memo_text, organized_text)
             VALUES (%s, %s);
             """,
-            (memo_text, organized_text)  # %s に入る値をタプルで渡す
+            (memo_text, organized_text)
         )
 
-        # 変更を確定する（これをしないとDBに反映されない）
+        # 変更を確定する
         conn.commit()
 
     except Exception as e:
-        # 何かエラーが起きた場合は内容を表示しておく（本番ではログに出すイメージ）
         print("memos への INSERT に失敗しました:", e)
-        # ロールバックして DB の状態を元に戻す
         conn.rollback()
+        raise
 
     finally:
         # カーソルと接続を必ず閉じる
         cur.close()
         conn.close()
+
 
 def get_all_memos():
     """
@@ -83,11 +89,10 @@ def get_all_memos():
             """
         )
 
-        rows = cur.fetchall()  # rows は (id, memo_text, organized_text, created_at) のタプルのリスト
+        rows = cur.fetchall()
 
         memos = []
         for row in rows:
-            # row[0] = id, row[1] = memo_text, row[2] = organized_text, row[3] = created_at
             memos.append(
                 {
                     "id": row[0],
@@ -101,7 +106,6 @@ def get_all_memos():
 
     except Exception as e:
         print("memos の取得に失敗しました:", e)
-        # エラー時は空リストを返す
         return []
 
     finally:

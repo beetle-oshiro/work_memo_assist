@@ -1,37 +1,42 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
-
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Work Memo Assist</title>
-</head>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
 
-<body>
-    <h1>Work Memo Assist</h1>
-    <p>仕事で教わった内容のメモを整理して、学習ノート風に整えます。</p>
+  <body>
+    <div class="form-container">
+      <h1>Work Memo Assist</h1>
+      <p class="page-description">
+        仕事で教わった内容のメモを整理して、学習ノート風に整えます。
+      </p>
 
-    <!-- メモ入力フォーム -->
-    <form method="POST" action="/">
-        <label for="memo">メモ内容（箇条書きでOK）：</label><br>
-        <textarea id="memo" name="memo" rows="8" cols="60">{{ memo_text }}</textarea><br><br>
+      <form method="POST" action="/">
+        <div class="input-group">
+          <label for="memo">メモ内容（箇条書きでOK）</label>
+          <textarea id="memo" name="memo" rows="8">{{ memo_text }}</textarea>
+        </div>
 
-        <button type="submit">AIで整理して保存</button>
-    </form>
+        <button type="submit" class="submit-btn">AIで整理して保存</button>
+      </form>
 
-    <!-- メモ一覧へのリンク ★ 新規追加 -->
-    <p>
-        <a href="{{ url_for('list_memos') }}">保存済みメモの一覧を見る</a>
-    </p>
+      <p class="link-area">
+        <a href="{{ url_for('list_memos') }}" class="sub-link"
+          >保存済みメモの一覧を見る</a
+        >
+      </p>
 
-
-    <!-- 整理結果の表示（organized_text があるときだけ） -->
-    {% if organized_text %}
-    <hr>
-    <h2>整理結果</h2>
-    <pre style="white-space: pre-wrap; font-family: inherit;">
-{{ organized_text }}
-        </pre>
-    {% endif %}
-</body>
-
+      {% if organized_text %}
+      <div class="result-box">
+        <h2>整理結果</h2>
+        <pre class="organized-text">{{ organized_text }}</pre>
+      </div>
+      {% endif %}
+    </div>
+  </body>
 </html>
